@@ -1,0 +1,171 @@
+mysql> INSERT INTO reaction (user_name, reaction_type, post_id, created_at, location, mood_level, comment) VALUES
+    -> ('Alice', 'like', 101, '2025-08-07 10:15:00', 'New York', 8, 'Nice post!'),
+    -> ('Bob', 'love', 102, '2025-08-06 14:20:00', 'Los Angeles', 9, 'Awesome!'),
+    -> ('Charlie', 'angry', 101, '2025-08-05 09:10:00', 'Chicago', 3, NULL),
+    -> ('Diana', 'wow', 103, '2025-08-07 08:30:00', 'Miami', 7, 'Interesting point.'),
+    -> ('Ethan', 'sad', 104, '2025-08-04 16:45:00', 'Dallas', 2, NULL),
+    -> ('Fiona', 'love', 102, '2025-08-07 12:00:00', 'Boston', 6, 'Well said.'),
+    -> ('George', 'like', 105, '2025-08-03 11:25:00', 'Seattle', 5, NULL),
+    -> ('Hannah', 'like', 106, '2025-08-07 15:50:00', 'Denver', 9, 'Completely agree!'),
+    -> ('Ian', 'angry', 107, '2025-08-06 13:15:00', 'Phoenix', 4, 'Not okay with this.'),
+    -> ('Jane', 'sad', 108, '2025-08-02 18:40:00', 'Atlanta', 1, NULL),
+    -> ('Sam', 'like', 101, '2025-08-07 10:50:00', 'New York', 8, NULL),
+    -> ('Anita', 'wow', 109, '2025-08-01 20:10:00', 'Houston', 7, NULL),
+    -> ('Brian', 'love', 110, '2025-08-07 09:05:00', 'San Francisco', 10, 'Fantastic work!'),
+    -> ('Catherine', 'like', 111, '2025-08-07 08:55:00', 'New York', 6, NULL),
+    -> ('Daniel', 'angry', 112, '2025-08-05 17:35:00', 'Chicago', 2, NULL);
+Query OK, 15 rows affected (0.02 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+mysql> select * from reaction;
++----+-----------+---------------+---------+---------------------+---------------+------------+---------------------+
+| id | user_name | reaction_type | post_id | created_at          | location      | mood_level | comment             |
++----+-----------+---------------+---------+---------------------+---------------+------------+---------------------+
+|  1 | Alice     | like          |     101 | 2025-08-07 10:15:00 | New York      |          8 | Nice post!          |
+|  2 | Bob       | love          |     102 | 2025-08-06 14:20:00 | Los Angeles   |          9 | Awesome!            |
+|  3 | Charlie   | angry         |     101 | 2025-08-05 09:10:00 | Chicago       |          3 | NULL                |
+|  4 | Diana     | wow           |     103 | 2025-08-07 08:30:00 | Miami         |          7 | Interesting point.  |
+|  5 | Ethan     | sad           |     104 | 2025-08-04 16:45:00 | Dallas        |          2 | NULL                |
+|  6 | Fiona     | love          |     102 | 2025-08-07 12:00:00 | Boston        |          6 | Well said.          |
+|  7 | George    | like          |     105 | 2025-08-03 11:25:00 | Seattle       |          5 | NULL                |
+|  8 | Hannah    | like          |     106 | 2025-08-07 15:50:00 | Denver        |          9 | Completely agree!   |
+|  9 | Ian       | angry         |     107 | 2025-08-06 13:15:00 | Phoenix       |          4 | Not okay with this. |
+| 10 | Jane      | sad           |     108 | 2025-08-02 18:40:00 | Atlanta       |          1 | NULL                |
+| 11 | Sam       | like          |     101 | 2025-08-07 10:50:00 | New York      |          8 | NULL                |
+| 12 | Anita     | wow           |     109 | 2025-08-01 20:10:00 | Houston       |          7 | NULL                |
+| 13 | Brian     | love          |     110 | 2025-08-07 09:05:00 | San Francisco |         10 | Fantastic work!     |
+| 14 | Catherine | like          |     111 | 2025-08-07 08:55:00 | New York      |          6 | NULL                |
+| 15 | Daniel    | angry         |     112 | 2025-08-05 17:35:00 | Chicago       |          2 | NULL                |
++----+-----------+---------------+---------+---------------------+---------------+------------+---------------------+
+15 rows in set (0.00 sec)
+
+mysql> select user_name as Reactor, reaction_type as Type from reaction;
++-----------+-------+
+| Reactor   | Type  |
++-----------+-------+
+| Alice     | like  |
+| Bob       | love  |
+| Charlie   | angry |
+| Diana     | wow   |
+| Ethan     | sad   |
+| Fiona     | love  |
+| George    | like  |
+| Hannah    | like  |
+| Ian       | angry |
+| Jane      | sad   |
+| Sam       | like  |
+| Anita     | wow   |
+| Brian     | love  |
+| Catherine | like  |
+| Daniel    | angry |
++-----------+-------+
+15 rows in set (0.01 sec)
+
+mysql> select reaction_type,user_name from reaction where user_name like 'A%';
++---------------+-----------+
+| reaction_type | user_name |
++---------------+-----------+
+| like          | Alice     |
+| wow           | Anita     |
++---------------+-----------+
+2 rows in set (0.01 sec)
+
+mysql> select reaction_type from reaction where mood_level between 4 and 8;
++---------------+
+| reaction_type |
++---------------+
+| like          |
+| wow           |
+| love          |
+| like          |
+| angry         |
+| like          |
+| wow           |
+| like          |
++---------------+
+8 rows in set (0.00 sec)
+
+mysql> select reaction_type,mood_level from reaction where reaction_type='Like' and mood_level>7;
++---------------+------------+
+| reaction_type | mood_level |
++---------------+------------+
+| like          |          8 |
+| like          |          9 |
+| like          |          8 |
++---------------+------------+
+3 rows in set (0.01 sec)
+
+mysql> select reaction_type from reaction where reaction_type = 'love' or reaction_type = 'angry';
++---------------+
+| reaction_type |
++---------------+
+| love          |
+| angry         |
+| love          |
+| angry         |
+| love          |
+| angry         |
++---------------+
+6 rows in set (0.00 sec)
+
+mysql> select reactio_type from rection where reaction_type not 'sad';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''sad'' at line 1
+mysql> select reactio_type from rection where reaction_type not ('sad');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '('sad')' at line 1
+mysql> select reaction_type from reaction where reaction_type not ('sad');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '('sad')' at line 1
+mysql> select reaction_type from reaction where reaction_type not in ('sad');
++---------------+
+| reaction_type |
++---------------+
+| like          |
+| love          |
+| angry         |
+| wow           |
+| love          |
+| like          |
+| like          |
+| angry         |
+| like          |
+| wow           |
+| love          |
+| like          |
+| angry         |
++---------------+
+13 rows in set (0.00 sec)
+
+mysql> select reaction_type from reaction where reaction_type not in ('sad','wow','love');
++---------------+
+| reaction_type |
++---------------+
+| like          |
+| angry         |
+| like          |
+| like          |
+| angry         |
+| like          |
+| like          |
+| angry         |
++---------------+
+8 rows in set (0.00 sec)
+
+mysql> select reaction_type from reaction where comment = 'NULL';
+Empty set (0.00 sec)
+
+mysql> select reaction_type from reaction where comment = 'NULL';
+Empty set (0.00 sec)
+
+mysql> select comment from reaction where comment IS NULL;
++---------+
+| comment |
++---------+
+| NULL    |
+| NULL    |
+| NULL    |
+| NULL    |
+| NULL    |
+| NULL    |
+| NULL    |
+| NULL    |
++---------+
+8 rows in set (0.00 sec)
